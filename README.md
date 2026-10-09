@@ -83,6 +83,7 @@ erDiagram
 | データベース | PostgreSQL（Neon） |
 | ホスティング | Render |
 | 定期実行 | Solid Queue（recurring tasks） |
-| 天気・地名検索 | Open-Meteo API |
+| 天気 | Open-Meteo API |
+| 地名検索 | 国土地理院 地名検索API |
 | 文章生成 | Gemini API |
 | ログイン・通知 | LINEログイン / LINE Messaging API |
