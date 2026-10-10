@@ -41,9 +41,10 @@ RSpec.describe "Sessions", type: :request do
 
       user = User.last
       expect(user).to have_attributes(line_user_id: "U1234567890", name: "まい", picture_url: "https://profile.line-scdn.net/example")
-      expect(response).to redirect_to(root_path)
+      # マイエリアがまだないので、設定画面へ
+      expect(response).to redirect_to(settings_path)
       follow_redirect!
-      expect(response.body).to include("ログインしました")
+      expect(response.body).to include("まずはマイエリアを設定してください")
       expect(response.body).to include("ログアウト")
     end
 
@@ -54,6 +55,17 @@ RSpec.describe "Sessions", type: :request do
 
       expect { get line_callback_path(code: "abc", state:) }.not_to change(User, :count)
       expect(User.last).to have_attributes(name: "新しい名前", picture_url: nil)
+    end
+
+    it "マイエリアを設定済みの人は、ログイン後にトップへ戻る" do
+      user = User.create!(line_user_id: "U1234567890", name: "まい")
+      user.create_location!(name: "東京都渋谷区", latitude: 35.66367, longitude: 139.697723)
+      stub_line_login
+      state = start_login
+
+      get line_callback_path(code: "abc", state:)
+
+      expect(response).to redirect_to(root_path)
     end
 
     it "state が違うときはログインさせず、LINE にも問い合わせない" do

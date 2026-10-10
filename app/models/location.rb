@@ -1,4 +1,4 @@
-# ユーザーの自宅（毎朝の通知に使う場所）
+# ユーザーのマイエリア（毎朝の通知に使う場所。自宅を想定しているが、職場などでもよい）
 class Location < ApplicationRecord
   belongs_to :user
 

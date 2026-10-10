@@ -2,17 +2,18 @@
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
     <% if logged_in? %>
-      <%# タイトルの下の行に、右寄せで LINE のアイコン。ログアウトは #6 で設定画面に移す %>
+      <%# タイトルの下の行に、右寄せで LINE のアイコン。押すと設定画面へ（#8 でホームに変える） %>
       <div class="account">
-        <% if current_user.picture_url.present? %>
-          <%= image_tag current_user.picture_url, alt: "#{current_user.name} さん", class: "account-icon" %>
-        <% else %>
-          <%# LINE のアイコンを設定していない人には、人の形の線画を出す %>
-          <span class="account-icon account-icon-default" role="img" aria-label="<%= current_user.name %> さん">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
-          </span>
+        <%= link_to settings_path, class: "account-link", aria: { label: "設定" } do %>
+          <% if current_user.picture_url.present? %>
+            <%= image_tag current_user.picture_url, alt: "", class: "account-icon" %>
+          <% else %>
+            <%# LINE のアイコンを設定していない人には、人の形の線画を出す %>
+            <span class="account-icon account-icon-default">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+            </span>
+          <% end %>
         <% end %>
-        <%= button_to "ログアウト", logout_path, method: :delete, class: "logout-button" %>
       </div>
     <% end %>
     <p class="tagline">あの場所の今日の天気とおすすめの服装をチェックしよう！</p>

@@ -19,4 +19,8 @@ Rails.application.routes.draw do
   get "auth/line", to: "sessions#new", as: :line_login
   get "auth/line/callback", to: "sessions#callback", as: :line_callback
   delete "logout", to: "sessions#destroy", as: :logout
+
+  # 設定画面（体質の保存もここ）と、自宅の保存
+  resource :settings, only: %i[show update]
+  resource :location, only: :update
 end

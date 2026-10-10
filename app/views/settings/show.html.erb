@@ -1,0 +1,79 @@
+<main class="page">
+  <header class="settings-header">
+    <h1 class="settings-page-title">設定</h1>
+    <%= link_to "トップへ戻る", root_path, class: "back-link" %>
+  </header>
+
+  <%# マイエリア %>
+  <section class="settings-card" aria-labelledby="home-location-title">
+    <h2 id="home-location-title" class="settings-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>
+      マイエリア
+    </h2>
+    <p class="settings-note">毎朝7時に、マイエリアの天気とおすすめの服装をお届けします</p>
+
+    <% if @location %>
+      <p class="current-location">現在：<strong><%= @location.name %></strong></p>
+    <% else %>
+      <p class="current-location is-empty">まだ設定されていません。地名で検索して選んでください</p>
+    <% end %>
+
+    <%# 検索すると /settings?q=… を開き直して、下に候補を出す %>
+    <%= form_with url: settings_path, method: :get, class: "search-row" do |f| %>
+      <%= f.label :q, "マイエリアを地名で検索", class: "visually-hidden" %>
+      <%= f.search_field :q, value: @query, placeholder: "例：渋谷区、東京都中央区", class: "search-input", autocomplete: "off" %>
+      <%= f.submit "検索", class: "search-button", name: nil %>
+    <% end %>
+
+    <% if @search_error %>
+      <p class="candidates-message"><%= @search_error %></p>
+    <% elsif @query.present? && @places.empty? %>
+      <p class="candidates-message">見つかりませんでした。漢字で入力してください（例：渋谷区、東京都中央区）</p>
+    <% elsif @places.any? %>
+      <ul class="setting-candidates">
+        <% @places.each do |place| %>
+          <li>
+            <span><%= place.name %></span>
+            <%= button_to "この場所にする", location_path, method: :patch,
+                          params: { location: { name: place.name, latitude: place.latitude, longitude: place.longitude } },
+                          class: "choose-button" %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </section>
+
+  <%# 体感タイプ %>
+  <section class="settings-card" aria-labelledby="sensitivity-title">
+    <h2 id="sensitivity-title" class="settings-title">体感タイプ</h2>
+    <p class="settings-note">暑がり・寒がりに合わせて、おすすめの服装を調整します</p>
+
+    <%= form_with model: current_user, url: settings_path, method: :patch do |f| %>
+      <fieldset class="sensitivity-options">
+        <legend class="visually-hidden">体感タイプ</legend>
+        <% %i[hot normal cold].each do |level| %>
+          <label class="sensitivity-option">
+            <%= f.radio_button :sensitivity, level %>
+            <%= Sensitivity.label(level) %>
+          </label>
+        <% end %>
+      </fieldset>
+      <%= f.submit "保存する", class: "save-button" %>
+    <% end %>
+  </section>
+
+  <%# LINE 通知 %>
+  <section class="settings-card" aria-labelledby="line-title">
+    <h2 id="line-title" class="settings-title">LINE 通知</h2>
+    <dl class="settings-list">
+      <div>
+        <dt>通知時刻</dt>
+        <dd>毎朝 7:00（固定）</dd>
+      </div>
+    </dl>
+    <p class="settings-note">通知が届かない場合は、公式アカウントが友だち追加されているか確認してください</p>
+    <%= link_to "公式アカウントを友だち追加", Rails.configuration.x.line_friend_url, class: "friend-link", target: "_blank", rel: "noopener" %>
+  </section>
+
+  <%= button_to "ログアウト", logout_path, method: :delete, class: "logout-button logout-button-settings" %>
+</main>

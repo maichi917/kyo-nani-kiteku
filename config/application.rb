@@ -22,6 +22,9 @@ module KyoNaniKiteku
     # in config/environments, which are processed later.
     #
     config.time_zone = "Tokyo"
+
+    # LINE 公式アカウントの友だち追加リンク
+    config.x.line_friend_url = "https://line.me/R/ti/p/@134ddgvb"
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
