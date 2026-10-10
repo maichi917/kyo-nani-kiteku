@@ -14,4 +14,9 @@ Rails.application.routes.draw do
 
   # 地名の候補（検索欄の下の候補リスト）
   resources :places, only: :index
+
+  # LINE ログイン
+  get "auth/line", to: "sessions#new", as: :line_login
+  get "auth/line/callback", to: "sessions#callback", as: :line_callback
+  delete "logout", to: "sessions#destroy", as: :logout
 end

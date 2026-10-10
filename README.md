@@ -52,6 +52,7 @@ erDiagram
     bigint id PK
     string line_user_id "ユニーク"
     string name "LINEの表示名"
+    string picture_url "LINEのプロフィール画像のURL"
     integer sensitivity "体質 enum"
   }
 

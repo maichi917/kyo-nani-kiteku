@@ -1,6 +1,20 @@
 <main class="page">
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
+    <% if logged_in? %>
+      <%# タイトルの下の行に、右寄せで LINE のアイコン。ログアウトは #6 で設定画面に移す %>
+      <div class="account">
+        <% if current_user.picture_url.present? %>
+          <%= image_tag current_user.picture_url, alt: "#{current_user.name} さん", class: "account-icon" %>
+        <% else %>
+          <%# LINE のアイコンを設定していない人には、人の形の線画を出す %>
+          <span class="account-icon account-icon-default" role="img" aria-label="<%= current_user.name %> さん">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+          </span>
+        <% end %>
+        <%= button_to "ログアウト", logout_path, method: :delete, class: "logout-button" %>
+      </div>
+    <% end %>
     <p class="tagline">あの場所の今日の天気とおすすめの服装をチェックしよう！</p>
   </header>
 
@@ -90,16 +104,21 @@
         </div>
       </div>
 
-      <%# ログイン後は、ここに AI の一言アドバイスが入る（#7・#8） %>
-      <p class="ai-comment-placeholder">LINE登録すると、毎朝ひとことメッセージが届きます🎶</p>
+      <%# ログイン前だけ案内を出す。ログイン後のホームでは、ここに AI の一言が入る（#7・#8） %>
+      <% unless logged_in? %>
+        <p class="ai-comment-placeholder">LINE登録すると、毎朝ひとことメッセージが届きます🎶</p>
+      <% end %>
 
     <% end %>
   </section>
 
+  <%# ログイン前だけ LINE 登録の案内を出す %>
+  <% unless logged_in? %>
   <section class="line-cta" aria-label="LINE で受け取る">
-    <p class="line-cta-title">毎朝7時にLINEでメッセージを受け取れます</p>
-    <%# リンク先は #5（LINE ログイン）で作る %>
-    <span class="line-button is-disabled">LINEでログイン（準備中）</span>
-    <p class="line-cta-note">ログイン時に公式アカウントの友だち追加をお願いします</p>
+      <p class="line-cta-title">毎朝7時にLINEでメッセージを受け取れます</p>
+      <%# Turbo を使わず普通のページ移動にする（LINE のサイトへ移動するため） %>
+      <%= link_to "LINEでログイン", line_login_path, class: "line-button", data: { turbo: false } %>
+      <p class="line-cta-note">ログイン時に公式アカウントの友だち追加をお願いします</p>
   </section>
+  <% end %>
 </main>
