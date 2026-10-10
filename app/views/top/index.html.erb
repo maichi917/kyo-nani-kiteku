@@ -1,2 +1,85 @@
-<h1>今日なに着てく？</h1>
-<p>準備中です</p>
+<main class="page">
+  <header class="page-header">
+    <h1 class="brand">今日なに着てく？</h1>
+    <p class="tagline">地名を入れるだけで、今日の服装がわかる</p>
+  </header>
+
+  <section class="search" aria-label="地名で検索">
+    <%# 送信すると /places?q=… の結果で、下の候補の枠（place_candidates）だけが差し替わる %>
+    <%= form_with url: places_path, method: :get, data: { turbo_frame: "place_candidates" }, class: "search-form" do |f| %>
+      <%= f.label :q, "地名で検索", class: "search-label" %>
+      <div class="search-row">
+        <%= f.search_field :q, placeholder: "例：渋谷区、東京都中央区", class: "search-input", autocomplete: "off" %>
+        <%= f.submit "検索", class: "search-button", name: nil %>
+      </div>
+    <% end %>
+
+    <%# 候補が入る枠。最初は空っぽ %>
+    <%= turbo_frame_tag "place_candidates" %>
+  </section>
+
+  <section class="weather-card" aria-label="今日の天気と服装">
+    <% if @error %>
+      <p class="weather-error"><%= @error %></p>
+    <% else %>
+      <div class="weather-card-head">
+        <h2 class="weather-place"><%= @place.name %>の今日</h2>
+        <p class="weather-date"><%= @forecast.date.strftime("%-m月%-d日") %>（<%= %w[日 月 火 水 木 金 土][@forecast.date.wday] %>）</p>
+      </div>
+
+      <dl class="temps">
+        <div class="temp">
+          <dt>最高</dt>
+          <dd class="temp-max"><%= @forecast.max_temp.round %>℃</dd>
+        </div>
+        <div class="temp">
+          <dt>最低</dt>
+          <dd class="temp-min"><%= @forecast.min_temp.round %>℃</dd>
+        </div>
+        <div class="temp">
+          <dt>降水確率</dt>
+          <dd><%= @forecast.precipitation_probability.to_i %>%</dd>
+        </div>
+      </dl>
+
+      <%# 昨日の最高気温との差。画面に出している四捨五入後の気温どうしで比べる %>
+      <% diff = @forecast.max_temp.round - @forecast.yesterday_max_temp.round %>
+      <p class="yesterday">
+        <% if diff.zero? %>
+          昨日と同じくらい
+        <% else %>
+          昨日より <strong><%= diff.abs %>℃</strong> <%= diff.positive? ? "高い" : "低い" %>
+        <% end %>
+        <span class="yesterday-max">昨日の最高 <%= @forecast.yesterday_max_temp.round %>℃</span>
+      </p>
+
+      <div class="outfit">
+        <div class="outfit-icon" aria-hidden="true">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l-5 3 2 4 2-1v12h10V9l2 1 2-4-5-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3z"></path></svg>
+        </div>
+        <div class="outfit-body">
+          <p class="outfit-name"><%= Outfit.label(@judgment.outfit) %></p>
+          <div class="badges">
+            <% if @judgment.heat_level %>
+              <span class="badge badge-<%= @judgment.heat_level %>"><%= Outfit::Judge.heat_label(@judgment.heat_level) %></span>
+            <% end %>
+            <% if @judgment.temperature_gap %>
+              <span class="badge badge-gap">寒暖差あり</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <% if @judgment.umbrella %>
+        <p class="umbrella">雨の可能性あり。折りたたみ傘を</p>
+      <% end %>
+    <% end %>
+  </section>
+
+  <section class="line-cta" aria-label="LINE で受け取る">
+    <p class="line-cta-title">毎朝7時にLINEで受け取る</p>
+    <p class="line-cta-note">LINEで登録すると、AIの一言アドバイスも毎朝届きます</p>
+    <%# リンク先は #5（LINE ログイン）で作る %>
+    <span class="line-button is-disabled">LINEでログイン（準備中）</span>
+  </section>
+</main>
