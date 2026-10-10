@@ -14,7 +14,7 @@
 - トップページの初期表示は渋谷区
 - LINEログインすると、AIによる一言アドバイスも見られる
 - LINEログイン
-- 通知する地点（1地点、自宅を想定）と体質（暑がり／ふつう／寒がり）の設定
+- マイエリア（毎朝の天気を届ける場所。1つ、自宅や職場を想定）と体感タイプ（暑がり／ふつう／寒がり）の設定
 - 毎朝7時に、天気・おすすめの服装・AIの一言をLINEで通知
 
 ## 仕組み
@@ -38,14 +38,14 @@
 | 画面 | 内容 |
 |---|---|
 | トップ | 地名検索、今日の天気・おすすめの服装、LINEログインボタン |
-| ホーム | 自宅の今日の天気・服装・AIの一言、通知状況 |
-| 設定 | 地点、体質、LINE通知の状態 |
+| ホーム | マイエリアの今日の天気・服装・AIの一言、通知状況 |
+| 設定 | マイエリア、体感タイプ、LINE通知の状態、ログアウト |
 
 ## ER 図
 
 ```mermaid
 erDiagram
-  users ||--|| locations : "自宅"
+  users ||--o| locations : "マイエリア"
   users ||--o{ daily_advices : "1日1件"
 
   users {
@@ -53,7 +53,7 @@ erDiagram
     string line_user_id "ユニーク"
     string name "LINEの表示名"
     string picture_url "LINEのプロフィール画像のURL"
-    integer sensitivity "体質 enum"
+    integer sensitivity "体感タイプ enum"
   }
 
   locations {
