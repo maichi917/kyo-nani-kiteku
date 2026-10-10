@@ -20,4 +20,11 @@ class ApplicationController < ActionController::Base
   def logged_in?
     current_user.present?
   end
+
+  # ログインが必要なページで使う。ログインしていなければトップへ戻す
+  def require_login
+    return if logged_in?
+
+    redirect_to root_path, alert: "LINE でログインしてください"
+  end
 end

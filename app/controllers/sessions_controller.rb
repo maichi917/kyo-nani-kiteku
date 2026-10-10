@@ -29,7 +29,12 @@ class SessionsController < ApplicationController
 
     reset_session # ログインの前後でセッションを作り直す（セッション固定攻撃の対策）
     session[:user_id] = user.id
-    redirect_to root_path, notice: "ログインしました"
+    # マイエリアがまだなら、まず設定画面へ（#8 でホームができたら、設定済みの人はホームへ）
+    if user.location
+      redirect_to root_path, notice: "ログインしました"
+    else
+      redirect_to settings_path, notice: "ログインしました。まずはマイエリアを設定してください"
+    end
   rescue Line::Login::Error
     redirect_to root_path, alert: "ログインに失敗しました。もう一度お試しください"
   end

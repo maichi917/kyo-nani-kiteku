@@ -389,6 +389,20 @@ body {
   color: #0f6b5e;
 }
 
+/* 雨が降らなさそうな日の帯 */
+.sunny {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #fff6dc;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8a5a00;
+}
+
 /* ---- LINE の案内 ---- */
 .line-cta {
   display: flex;
@@ -453,4 +467,197 @@ body {
 .flash-alert {
   background: #fde3e3;
   color: #b42318;
+}
+
+/* ---- 画面には見せず、読み上げソフトには読ませる ---- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- 右上のアイコン（押すと設定画面へ） ---- */
+.account-link {
+  display: flex;
+  border-radius: 50%;
+}
+
+/* ---- 設定画面 ---- */
+.settings-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-page-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+}
+
+.back-link {
+  font-size: 13px;
+}
+
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.settings-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 16px;
+}
+
+.settings-title svg {
+  color: var(--color-accent);
+}
+
+.settings-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.current-location {
+  margin: 0;
+  font-size: 14px;
+}
+
+.current-location.is-empty {
+  color: var(--color-hot);
+}
+
+/* マイエリアの候補（「この場所にする」ボタン付き） */
+.setting-candidates {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.setting-candidates li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.setting-candidates li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.choose-button {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent-ink);
+  cursor: pointer;
+}
+
+/* 体感タイプ：選んでいるものを青く囲む */
+.sensitivity-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.sensitivity-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-box);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sensitivity-option:has(input:checked) {
+  border: 2px solid var(--color-accent);
+  background: #e4effd;
+  font-weight: 700;
+  color: var(--color-accent-ink);
+}
+
+.save-button {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 12px;
+  background: var(--color-accent);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-surface);
+  cursor: pointer;
+}
+
+.settings-list {
+  margin: 0;
+}
+
+.settings-list div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.settings-list dt {
+  color: var(--color-muted);
+}
+
+.settings-list dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.friend-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--color-line);
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* 設定画面のログアウトは、押しやすい大きなボタン */
+.logout-button-settings {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-hot);
+  text-decoration: none;
 }
