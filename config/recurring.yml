@@ -10,6 +10,11 @@
 #     schedule: at 5am every day
 
 production:
+  # 毎朝7時（日本時間）に、全員へ LINE で天気と服装を届ける。サーバーは世界標準時なので Asia/Tokyo を付ける
+  morning_notification:
+    class: MorningNotificationJob
+    schedule: "0 7 * * * Asia/Tokyo"
+
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12
