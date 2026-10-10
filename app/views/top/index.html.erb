@@ -1,7 +1,7 @@
 <main class="page">
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
-    <p class="tagline">地名を入れるだけで、今日の服装がわかる</p>
+    <p class="tagline">あの場所の今日の天気とおすすめの服装をチェックしよう！</p>
   </header>
 
   <section class="search" aria-label="地名で検索">
@@ -42,9 +42,28 @@
         </div>
       </dl>
 
+      <%# 傘はいちばん大事なので、気温のすぐ下に目立つ帯で出す %>
+      <% if @judgment.umbrella %>
+        <p class="umbrella">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z"></path><path d="M12 12v6a2 2 0 0 0 4 0"></path></svg>
+          雨の可能性あり。傘を持っていこう
+        </p>
+      <% end %>
+
       <%# 昨日の最高気温との差。画面に出している四捨五入後の気温どうしで比べる %>
       <% diff = @forecast.max_temp.round - @forecast.yesterday_max_temp.round %>
       <p class="yesterday">
+        <span class="yesterday-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <% if diff.positive? %>
+              <path d="M12 19V5"></path><path d="M6 11l6-6 6 6"></path>
+            <% elsif diff.negative? %>
+              <path d="M12 5v14"></path><path d="M6 13l6 6 6-6"></path>
+            <% else %>
+              <path d="M5 12h14"></path>
+            <% end %>
+          </svg>
+        </span>
         <% if diff.zero? %>
           昨日と同じくらい
         <% else %>
@@ -59,6 +78,7 @@
         </div>
         <div class="outfit-body">
           <p class="outfit-name"><%= Outfit.label(@judgment.outfit) %></p>
+          <p class="outfit-description"><%= Outfit.description(@judgment.outfit) %></p>
           <div class="badges">
             <% if @judgment.heat_level %>
               <span class="badge badge-<%= @judgment.heat_level %>"><%= Outfit::Judge.heat_label(@judgment.heat_level) %></span>
@@ -70,16 +90,16 @@
         </div>
       </div>
 
-      <% if @judgment.umbrella %>
-        <p class="umbrella">雨の可能性あり。折りたたみ傘を</p>
-      <% end %>
+      <%# ログイン後は、ここに AI の一言アドバイスが入る（#7・#8） %>
+      <p class="ai-comment-placeholder">LINE登録すると、毎朝ひとことメッセージが届きます🎶</p>
+
     <% end %>
   </section>
 
   <section class="line-cta" aria-label="LINE で受け取る">
-    <p class="line-cta-title">毎朝7時にLINEで受け取る</p>
-    <p class="line-cta-note">LINEで登録すると、AIの一言アドバイスも毎朝届きます</p>
+    <p class="line-cta-title">毎朝7時にLINEでメッセージを受け取れます</p>
     <%# リンク先は #5（LINE ログイン）で作る %>
     <span class="line-button is-disabled">LINEでログイン（準備中）</span>
+    <p class="line-cta-note">ログイン時に公式アカウントの友だち追加をお願いします</p>
   </section>
 </main>
