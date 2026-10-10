@@ -389,6 +389,20 @@ body {
   color: #0f6b5e;
 }
 
+/* 雨が降らなさそうな日の帯 */
+.sunny {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #fff6dc;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8a5a00;
+}
+
 /* ---- LINE の案内 ---- */
 .line-cta {
   display: flex;

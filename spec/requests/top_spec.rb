@@ -52,12 +52,13 @@ RSpec.describe "Top", type: :request do
       expect(response.body).to include("雨の可能性あり。傘を持っていこう")
     end
 
-    it "降水確率が50%未満なら傘の帯を出さない" do
+    it "降水確率が50%未満なら傘の帯の代わりに、雨は降らなさそうと出す" do
       stub_forecast(precipitation: 40)
 
       get root_path
 
       expect(response.body).not_to include("傘を持っていこう")
+      expect(response.body).to include("今日は雨は降らなさそうです！")
     end
 
     it "暑さと寒暖差のバッジを出す" do

@@ -56,14 +56,6 @@
         </div>
       </dl>
 
-      <%# 傘はいちばん大事なので、気温のすぐ下に目立つ帯で出す %>
-      <% if @judgment.umbrella %>
-        <p class="umbrella">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z"></path><path d="M12 12v6a2 2 0 0 0 4 0"></path></svg>
-          雨の可能性あり。傘を持っていこう
-        </p>
-      <% end %>
-
       <%# 昨日の最高気温との差。画面に出している四捨五入後の気温どうしで比べる %>
       <% diff = @forecast.max_temp.round - @forecast.yesterday_max_temp.round %>
       <p class="yesterday">
@@ -107,6 +99,19 @@
       <%# ログイン前だけ案内を出す。ログイン後のホームでは、ここに AI の一言が入る（#7・#8） %>
       <% unless logged_in? %>
         <p class="ai-comment-placeholder">LINE登録すると、毎朝ひとことメッセージが届きます🎶</p>
+      <% end %>
+
+      <%# 傘の帯はカードの一番下（画面イメージどおり）。雨が降らなさそうな日も帯を出して安心してもらう %>
+      <% if @judgment.umbrella %>
+        <p class="umbrella">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z"></path><path d="M12 12v6a2 2 0 0 0 4 0"></path></svg>
+          雨の可能性あり。傘を持っていこう
+        </p>
+      <% else %>
+        <p class="sunny">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          今日は雨は降らなさそうです！
+        </p>
       <% end %>
 
     <% end %>
