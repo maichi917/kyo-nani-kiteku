@@ -1,0 +1,24 @@
+<%# 検索欄の下の候補リスト。トップページにある同じ名前の枠（place_candidates）の中身だけが、これに差し替わる %>
+<%= turbo_frame_tag "place_candidates" do %>
+  <% if @query.blank? %>
+    <%# 何も入力せずに検索したときは、何も出さない %>
+  <% elsif @error %>
+    <p class="candidates-message"><%= @error %></p>
+  <% elsif @places.empty? %>
+    <p class="candidates-message">見つかりませんでした。漢字で入力してください（例：渋谷区、東京都中央区）</p>
+  <% else %>
+    <div class="candidates">
+      <p class="candidates-caption">どこの天気ですか？</p>
+      <ul>
+        <% @places.each do |place| %>
+          <li>
+            <%# 選んだらページごと切り替える（_top = 枠の外、ページ全体） %>
+            <%= link_to place.name,
+                        root_path(name: place.name, lat: place.latitude, lon: place.longitude),
+                        data: { turbo_frame: "_top" } %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>

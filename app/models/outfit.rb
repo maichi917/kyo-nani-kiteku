@@ -19,7 +19,21 @@ module Outfit
     heavy_coat: "厚手コート"
   }.freeze
 
+  # ログイン前（AI の一言がないとき）に出す、服装ごとの決まった説明文
+  DESCRIPTIONS = {
+    short_sleeve: "半袖で過ごせる暑さ。日差し対策もしておくと安心です",
+    long_sleeve: "長袖1枚でちょうどいい気温です",
+    cardigan: "さっと羽織れるカーディガンがあると安心です",
+    light_coat: "薄手のコートやジャケットを一枚。脱ぎ着しやすいものを",
+    coat: "コートが必要な寒さ。首元を温めると過ごしやすくなります",
+    heavy_coat: "厚手のコートでしっかり防寒。マフラーや手袋もあると安心です"
+  }.freeze
+
   def self.label(level)
     LABELS.fetch(level.to_sym)
+  end
+
+  def self.description(level)
+    DESCRIPTIONS.fetch(level.to_sym)
   end
 end

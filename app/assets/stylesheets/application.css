@@ -1,10 +1,402 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * アプリ全体の見た目。色・フォント・角丸は画面イメージに合わせている
+ * https://claude.ai/artifact/GTsnCwyATqK87JHq6UKRte
  */
+
+/* ---- 色とフォント（ここを変えると全体に反映される） ---- */
+:root {
+  --color-text: #111318;
+  --color-muted: #62656e;
+  --color-border: #d9dce3;
+  --color-surface: #ffffff;
+  --color-surface-sub: #f3f4f7;
+  --color-accent: #1d63e0;
+  --color-accent-soft: #e1edfd;
+  --color-accent-ink: #1a56c4;
+  --color-hot: #d13a3a;
+  --color-line: #06c755;
+
+  --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", sans-serif;
+
+  --radius-card: 22px;
+  --radius-box: 10px;
+}
+
+/* ---- ページ全体 ---- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #dcedfb 0, #eeeff4 380px);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ---- 見出し ---- */
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.3;
+  color: var(--color-accent);
+}
+
+.tagline {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* ---- 検索欄 ---- */
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-box);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: 15px;
+}
+
+.search-button {
+  height: 46px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--radius-box);
+  background: var(--color-accent);
+  color: var(--color-surface);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---- 候補リスト（Turbo Frame の中身） ---- */
+.candidates {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+}
+
+.candidates-caption {
+  margin: 0;
+  padding: 8px 14px;
+  background: var(--color-surface-sub);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.candidates ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.candidates li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.candidates a {
+  display: block;
+  padding: 12px 14px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.candidates a:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+}
+
+.candidates-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-box);
+  background: var(--color-surface);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* ---- 天気カード ---- */
+.weather-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 20px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.weather-error {
+  margin: 0;
+  color: var(--color-hot);
+}
+
+.weather-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.weather-place {
+  margin: 0;
+  font-size: 14px;
+}
+
+.weather-date {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* 最高・最低・降水確率の3つの枠 */
+.temps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.temp {
+  padding: 10px;
+  border-radius: var(--radius-box);
+  background: var(--color-surface-sub);
+  text-align: center;
+}
+
+.temp dt {
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+.temp dd {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.temp-max {
+  color: var(--color-hot);
+}
+
+.temp-min {
+  color: var(--color-accent);
+}
+
+/* 昨日との差の帯 */
+.yesterday {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #eeebfb;
+  font-size: 13px;
+  color: #43359e;
+}
+
+.yesterday strong {
+  font-size: 15px;
+}
+
+/* 上がった・下がったが、ひと目で分かる矢印のマーク */
+.yesterday-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #5b4bc4;
+  color: #ffffff;
+}
+
+.yesterday-max {
+  margin-left: auto;
+  font-size: 12px;
+  color: #4a5060;
+}
+
+/* 服装 */
+.outfit {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.outfit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 14px;
+  background: #e4effd;
+  color: var(--color-accent);
+}
+
+.outfit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.outfit-name {
+  align-self: flex-start;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-accent-ink);
+}
+
+.outfit-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* AI の一言の場所（ログイン前は案内を出す） */
+.ai-comment-placeholder {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px dashed #c5cad6;
+  border-radius: var(--radius-box);
+  font-size: 12px;
+  line-height: 1.6;
+  color: #4a5060;
+}
+
+/* 暑さ・寒暖差のバッジ */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badges:empty {
+  display: none;
+}
+
+.badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge-hot_day {
+  background: #fff1e0;
+  color: #9a4a00;
+}
+
+.badge-very_hot_day {
+  background: #fde3e3;
+  color: #b42318;
+}
+
+.badge-extreme_hot_day {
+  background: #7a1010;
+  color: #ffffff;
+}
+
+.badge-gap {
+  background: #eaf0f7;
+  color: #2f4a6b;
+}
+
+/* 傘の帯 */
+.umbrella {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #e3f5f1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0f6b5e;
+}
+
+/* ---- LINE の案内 ---- */
+.line-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+  text-align: center;
+}
+
+.line-cta-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.line-cta-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.line-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--color-line);
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.line-button.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
