@@ -15,6 +15,7 @@ class SettingsController < ApplicationController
   # PATCH /settings（体感タイプ＝暑がり・ふつう・寒がりを保存する）
   def update
     if current_user.update(settings_params)
+      current_user.reset_today_advice! # 新しい体感タイプで、今日のアドバイスを作り直す
       redirect_to settings_path, notice: "体感タイプを保存しました"
     else
       redirect_to settings_path, alert: "体感タイプを保存できませんでした"

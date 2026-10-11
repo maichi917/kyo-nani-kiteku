@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_10_111752) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_11_035553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "daily_advices", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.integer "outfit_level", null: false
+    t.text "comment"
+    t.text "line_comment"
+    t.decimal "max_temp", precision: 4, scale: 1, null: false
+    t.decimal "min_temp", precision: 4, scale: 1, null: false
+    t.decimal "yesterday_max_temp", precision: 4, scale: 1, null: false
+    t.integer "precipitation_probability"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "date"], name: "index_daily_advices_on_user_id_and_date", unique: true
+    t.index ["user_id"], name: "index_daily_advices_on_user_id"
+  end
 
   create_table "locations", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -204,6 +220,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_10_111752) do
     t.index ["line_user_id"], name: "index_users_on_line_user_id", unique: true
   end
 
+  add_foreign_key "daily_advices", "users"
   add_foreign_key "locations", "users"
   add_foreign_key "solid_queue_batch_executions", "solid_queue_batches", column: "batch_id", on_delete: :cascade
   add_foreign_key "solid_queue_batch_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
