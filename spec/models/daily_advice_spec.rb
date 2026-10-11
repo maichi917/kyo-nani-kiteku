@@ -32,11 +32,11 @@ RSpec.describe DailyAdvice do
       expect(advice.line_message_comment).to eq "LINE 用の一言"
     end
 
-    it "AI の一言が空なら、服装ごとの説明文を使う" do
+    it "AI の一言が空なら、服装ごとの説明文を使う（LINE はふつうのあいさつを付ける）" do
       advice = build_advice(comment: nil, line_comment: "")
 
       expect(advice.home_comment).to eq Outfit.description(:cardigan)
-      expect(advice.line_message_comment).to eq Outfit.description(:cardigan)
+      expect(advice.line_message_comment).to eq "おはようございます☀️\n#{Outfit.description(:cardigan)}"
     end
   end
 

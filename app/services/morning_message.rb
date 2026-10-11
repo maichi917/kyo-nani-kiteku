@@ -1,4 +1,4 @@
-# 毎朝 LINE に送る通知の文面を作る
+# 毎朝 LINE に送る通知の文面を作る（今日なにちゃんの一言 ＋ 天気のまとめ）
 class MorningMessage
   HEAT_LINES = {
     hot_day: "☀️ 真夏日。こまめに水分補給を",
@@ -6,36 +6,26 @@ class MorningMessage
     extreme_hot_day: "🔥 酷暑日。外出はできるだけ控えて"
   }.freeze
 
-  # ユーザーのマイエリアの天気を取得して、文面を作る。天気が取れなければ Weather::Error
+  # ユーザーの今日のアドバイス（なければ作る）から、文面を作る。天気が取れなければ Weather::Error
   def self.for(user)
-    location = user.location
-    forecast = Weather::Forecast.fetch(latitude: location.latitude, longitude: location.longitude)
-    # 画面と同じく、四捨五入した気温で、体感タイプも入れて判定する
-    judgment = Outfit::Judge.call(
-      max_temp: forecast.max_temp.round,
-      min_temp: forecast.min_temp.round,
-      precipitation_probability: forecast.precipitation_probability,
-      sensitivity: user.sensitivity
-    )
-    # AI の一言（#7）ができるまでは、服装ごとの説明文を使う
-    comment = Outfit.description(judgment.outfit)
-
-    new(place_name: location.name, forecast:, judgment:, comment:).text
+    new(place_name: user.location.name, advice: DailyAdvice.for_today(user)).text
   end
 
-  def initialize(place_name:, forecast:, judgment:, comment:)
+  def initialize(place_name:, advice:)
     @place_name = place_name
-    @forecast = forecast
-    @judgment = judgment
-    @comment = comment
+    @advice = advice
+    # 傘・暑さ・寒暖差は、保存した気温から判定し直す（体感タイプは関係しない）
+    @judgment = Outfit::Judge.call(
+      max_temp: advice.max_temp.round,
+      min_temp: advice.min_temp.round,
+      precipitation_probability: advice.precipitation_probability
+    )
   end
 
   def text
     [
-      "おはようございます☀️\n今日なに着てく？👕",
-      weather_lines,
-      "👕 おすすめ：#{Outfit.label(@judgment.outfit)}\n#{@comment}",
-      notice_lines,
+      @advice.line_message_comment,
+      [ weather_lines, notice_lines ].join("\n"),
       "▼ アプリで詳しく見る\n#{Rails.configuration.x.app_url}"
     ].join("\n\n")
   end
@@ -43,8 +33,8 @@ class MorningMessage
   private
 
   def weather_lines
-    max = @forecast.max_temp.round
-    diff = max - @forecast.yesterday_max_temp.round
+    max = @advice.max_temp.round
+    diff = max - @advice.yesterday_max_temp.round
     compared = if diff.zero?
       "昨日と同じくらい"
     else
@@ -53,8 +43,9 @@ class MorningMessage
 
     [
       "📍 #{@place_name}",
-      "🌡 最高#{max}℃ ／ 最低#{@forecast.min_temp.round}℃（#{compared}）",
-      "☔️ 降水確率 #{@forecast.precipitation_probability.to_i}%"
+      "🌡 最高#{max}℃ ／ 最低#{@advice.min_temp.round}℃（#{compared}）",
+      "☔️ 降水確率 #{@advice.precipitation_probability.to_i}%",
+      "👕 おすすめ：#{Outfit.label(@advice.outfit_level)}"
     ].join("\n")
   end
 
