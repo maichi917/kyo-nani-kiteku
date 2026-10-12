@@ -12,9 +12,9 @@
       <ul>
         <% @places.each do |place| %>
           <li>
-            <%# 選んだらページごと切り替える（_top = 枠の外、ページ全体） %>
+            <%# 選んだらページごと切り替える（_top = 枠の外、ページ全体）。ログイン中でもホームに戻されないよう、さがす（/search）へ %>
             <%= link_to place.name,
-                        root_path(name: place.name, lat: place.latitude, lon: place.longitude),
+                        search_path(name: place.name, lat: place.latitude, lon: place.longitude),
                         data: { turbo_frame: "_top" } %>
           </li>
         <% end %>

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "top#index"
 
+  # さがす（ほかの場所の天気を調べる。中身はトップと同じ。ログイン中は / の代わりにここを使う）
+  get "search", to: "top#search", as: :search
+
   # 地名の候補（検索欄の下の候補リスト）
   resources :places, only: :index
 
