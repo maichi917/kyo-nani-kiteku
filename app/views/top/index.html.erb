@@ -52,6 +52,8 @@
   <%# ログイン前だけ LINE 登録の案内を出す %>
   <% unless logged_in? %>
   <section class="line-cta" aria-label="LINE で受け取る">
+      <%= image_tag "kyonanichan.png", alt: "今日なにちゃん", class: "line-cta-character", width: 300, height: 300 %>
+      <p class="line-cta-lead">今日なにちゃんから LINE が届くよ</p>
       <p class="line-cta-title">毎朝7時にLINEでメッセージを受け取れます</p>
       <%# Turbo を使わず普通のページ移動にする（LINE のサイトへ移動するため） %>
       <%= link_to "LINEでログイン", line_login_path, class: "line-button", data: { turbo: false } %>
