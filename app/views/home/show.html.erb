@@ -25,9 +25,11 @@
   </section>
 
   <section class="friend-card" aria-label="LINE の友だち追加">
-    <%# #23 で、ここに今日なにちゃんのアイコンを置く %>
-    <p class="friend-card-text">友だち追加で今日なにちゃんからLINEが届くよ！</p>
-    <%= link_to "LINE で友だち追加", Rails.configuration.x.line_friend_url, class: "friend-card-button", target: "_blank", rel: "noopener" %>
+    <%= image_tag "kyonanichan.png", alt: "今日なにちゃん", class: "friend-card-character", width: 150, height: 150 %>
+    <div class="friend-card-body">
+      <p class="friend-card-text">友だち追加すると、今日なにちゃんが毎日天気とおすすめの服装をお知らせしてくれます！</p>
+      <%= link_to "LINE で友だち追加", Rails.configuration.x.line_friend_url, class: "friend-card-button", target: "_blank", rel: "noopener" %>
+    </div>
   </section>
 
   <%= render "shared/tab_bar", current: :home %>
