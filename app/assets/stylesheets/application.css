@@ -706,7 +706,7 @@ body {
   text-decoration: none;
 }
 
-/* ---- 下のタブ（ホーム／設定） ---- */
+/* ---- 下のタブ（ホーム／さがす／設定） ---- */
 /* タブの高さの分だけ、ページの下に余白をとる */
 .page-with-tabs {
   padding-bottom: calc(64px + 32px + env(safe-area-inset-bottom, 0px));
@@ -718,7 +718,7 @@ body {
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   height: calc(64px + env(safe-area-inset-bottom, 0px));
   /* 背景は画面いっぱい、ボタンはページの中身と同じ 480px の幅で真ん中に寄せる */
   padding-inline: max(0px, calc((100% - 480px) / 2));

@@ -1,4 +1,4 @@
-<main class="page">
+<main class="page<%= " page-with-tabs" if logged_in? %>">
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
     <% if logged_in? %>
@@ -57,5 +57,10 @@
       <%= link_to "LINEでログイン", line_login_path, class: "line-button", data: { turbo: false } %>
       <p class="line-cta-note">ログイン時に公式アカウントの友だち追加をお願いします</p>
   </section>
+  <% end %>
+
+  <%# ログイン中は、下にタブを出す（ここは「さがす」の画面） %>
+  <% if logged_in? %>
+    <%= render "shared/tab_bar", current: :search %>
   <% end %>
 </main>
