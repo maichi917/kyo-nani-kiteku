@@ -8,7 +8,6 @@ RSpec.describe MorningNotificationJob do
   end
 
   before do
-    allow(Line::Messaging).to receive(:channel_access_token).and_return("TEST_TOKEN")
     stub_gemini
     stub_request(:get, Weather::Forecast::ENDPOINT).with(query: hash_including({})).to_return(
       status: 200,

@@ -2,8 +2,6 @@ require "rails_helper"
 
 RSpec.describe Line::Messaging do
   describe ".push_text" do
-    before { allow(described_class).to receive(:channel_access_token).and_return("TEST_TOKEN") }
-
     it "宛先と文章を、トークン付きで LINE に送る" do
       stub_request(:post, Line::Messaging::PUSH_URL).to_return(status: 200, body: "{}")
 
@@ -11,7 +9,7 @@ RSpec.describe Line::Messaging do
 
       expect(
         a_request(:post, Line::Messaging::PUSH_URL).with(
-          headers: { "Authorization" => "Bearer TEST_TOKEN", "Content-Type" => "application/json" },
+          headers: { "Authorization" => "Bearer TEST_LINE_CHANNEL_ACCESS_TOKEN", "Content-Type" => "application/json" },
           body: { to: "U1234567890", messages: [ { type: "text", text: "おはようございます" } ] }.to_json
         )
       ).to have_been_made.once
