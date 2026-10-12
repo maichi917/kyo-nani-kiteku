@@ -678,12 +678,32 @@ body {
   color: #1e7a4c;
 }
 
-/* 友だち追加の案内 */
-.friend-note {
+/* 友だち追加の小さなカード（ほとんどの人は友だち追加済みなので、控えめに） */
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--color-surface);
+}
+
+.friend-card-text {
   margin: 0;
   font-size: 13px;
   text-align: center;
   color: var(--color-muted);
+}
+
+.friend-card-button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--color-line);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 /* ---- 下のタブ（ホーム／設定） ---- */
