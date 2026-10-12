@@ -11,8 +11,13 @@ module Line
 
     # to：送り先の LINE ユーザーID（users.line_user_id）、text：送る文章
     def self.push_text(to:, text:)
+      push_texts(to:, texts: [ text ])
+    end
+
+    # 1回の送信で、吹き出しを複数（最大5つ）送る。通数は吹き出しの数ではなく、1回の送信 × 人数で数えられる
+    def self.push_texts(to:, texts:)
       uri = URI(PUSH_URL)
-      body = { to:, messages: [ { type: "text", text: } ] }.to_json
+      body = { to:, messages: texts.map { |text| { type: "text", text: } } }.to_json
 
       response = Net::HTTP.start(uri.host, uri.port, use_ssl: true,
                                  open_timeout: TIMEOUT_SECONDS, read_timeout: TIMEOUT_SECONDS) do |http|

@@ -7,6 +7,7 @@ class LocationsController < ApplicationController
     location = current_user.location || current_user.build_location
 
     if location.update(location_params)
+      current_user.reset_today_advice! # 新しいマイエリアで、今日のアドバイスを作り直す
       redirect_to settings_path, notice: "マイエリアを「#{location.name}」に設定しました"
     else
       redirect_to settings_path, alert: "マイエリアを設定できませんでした。もう一度お試しください"

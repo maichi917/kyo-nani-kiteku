@@ -8,7 +8,7 @@ RSpec.describe MorningNotificationJob do
   end
 
   before do
-    allow(Line::Messaging).to receive(:channel_access_token).and_return("TEST_TOKEN")
+    stub_gemini
     stub_request(:get, Weather::Forecast::ENDPOINT).with(query: hash_including({})).to_return(
       status: 200,
       body: { daily: { time: [ "2026-10-10", "2026-10-11" ], temperature_2m_max: [ 21.0, 22.0 ],

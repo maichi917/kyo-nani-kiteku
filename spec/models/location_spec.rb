@@ -28,6 +28,12 @@ RSpec.describe Location do
     expect(location.user).to eq user
   end
 
+  it "short_name は都道府県を外した名前を返す（区がある市は区まで残す）" do
+    expect(build_location(name: "東京都渋谷区").short_name).to eq "渋谷区"
+    expect(build_location(name: "愛知県名古屋市中区").short_name).to eq "名古屋市中区"
+    expect(build_location(name: "北海道札幌市").short_name).to eq "札幌市"
+  end
+
   it "ユーザーを削除すると、自宅も削除される" do
     build_location.save!
 
