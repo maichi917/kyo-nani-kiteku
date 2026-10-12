@@ -48,6 +48,7 @@ class DailyAdvice < ApplicationRecord
 
     Gemini::AdviceWriter.write(
       place_name: location.name,
+      short_place_name: location.short_name,
       max_temp: forecast.max_temp.round,
       yesterday_max_temp: forecast.yesterday_max_temp.round,
       min_temp: forecast.min_temp.round,
@@ -68,8 +69,13 @@ class DailyAdvice < ApplicationRecord
     comment.presence || Outfit.description(outfit_level)
   end
 
-  # LINE に入れる一言。AI に失敗した日（line_comment が空）は、ふつうのあいさつ＋服装ごとの説明文を使う
+  # LINE の1つ目の吹き出し。今日なにちゃんのあいさつはアプリが入れて、改行の位置を毎日そろえる。
+  # AI に失敗した日（line_comment が空）は、ふつうのあいさつ＋服装ごとの説明文を使う
   def line_message_comment
-    line_comment.presence || "おはようございます☀️\n#{Outfit.description(outfit_level)}"
+    if line_comment.present?
+      "おはよう！\n今日なにちゃんだよ☀️\n\n#{line_comment}"
+    else
+      "おはようございます☀️\n#{Outfit.description(outfit_level)}"
+    end
   end
 end

@@ -1,4 +1,4 @@
-# 毎朝 LINE に送る通知の文面を作る（今日なにちゃんの一言 ＋ 天気のまとめ）
+# 毎朝 LINE に送る通知の文面を作る。吹き出し1：今日なにちゃんの一言、吹き出し2：天気のまとめ
 class MorningMessage
   HEAT_LINES = {
     hot_day: "☀️ 真夏日。こまめに水分補給を",
@@ -6,9 +6,9 @@ class MorningMessage
     extreme_hot_day: "🔥 酷暑日。外出はできるだけ控えて"
   }.freeze
 
-  # ユーザーの今日のアドバイス（なければ作る）から、文面を作る。天気が取れなければ Weather::Error
+  # ユーザーの今日のアドバイス（なければ作る）から、吹き出し2つ分の文面を作る。天気が取れなければ Weather::Error
   def self.for(user)
-    new(place_name: user.location.name, advice: DailyAdvice.for_today(user)).text
+    new(place_name: user.location.name, advice: DailyAdvice.for_today(user)).texts
   end
 
   def initialize(place_name:, advice:)
@@ -22,15 +22,18 @@ class MorningMessage
     )
   end
 
-  def text
+  def texts
+    [ @advice.line_message_comment, summary ]
+  end
+
+  private
+
+  def summary
     [
-      @advice.line_message_comment,
       [ weather_lines, notice_lines ].join("\n"),
       "▼ アプリで詳しく見る\n#{Rails.configuration.x.app_url}"
     ].join("\n\n")
   end
-
-  private
 
   def weather_lines
     max = @advice.max_temp.round

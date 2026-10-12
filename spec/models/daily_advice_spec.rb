@@ -29,7 +29,8 @@ RSpec.describe DailyAdvice do
       advice = build_advice(comment: "ホーム用の一言", line_comment: "LINE 用の一言")
 
       expect(advice.home_comment).to eq "ホーム用の一言"
-      expect(advice.line_message_comment).to eq "LINE 用の一言"
+      # LINE は、今日なにちゃんのあいさつをアプリが先頭に入れる
+      expect(advice.line_message_comment).to eq "おはよう！\n今日なにちゃんだよ☀️\n\nLINE 用の一言"
     end
 
     it "AI の一言が空なら、服装ごとの説明文を使う（LINE はふつうのあいさつを付ける）" do

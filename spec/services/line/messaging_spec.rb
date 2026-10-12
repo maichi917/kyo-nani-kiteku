@@ -17,6 +17,18 @@ RSpec.describe Line::Messaging do
       ).to have_been_made.once
     end
 
+    it "1回の送信で、吹き出しを複数送れる" do
+      stub_request(:post, Line::Messaging::PUSH_URL).to_return(status: 200, body: "{}")
+
+      described_class.push_texts(to: "U1234567890", texts: [ "1つ目", "2つ目" ])
+
+      expect(
+        a_request(:post, Line::Messaging::PUSH_URL).with(
+          body: { to: "U1234567890", messages: [ { type: "text", text: "1つ目" }, { type: "text", text: "2つ目" } ] }.to_json
+        )
+      ).to have_been_made.once
+    end
+
     it "LINE がエラーを返したら Line::Messaging::Error を投げる" do
       stub_request(:post, Line::Messaging::PUSH_URL).to_return(status: 400, body: '{"message":"Failed to send messages"}')
 

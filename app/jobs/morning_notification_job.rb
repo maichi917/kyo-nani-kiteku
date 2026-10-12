@@ -7,7 +7,7 @@ class MorningNotificationJob < ApplicationJob
     failed = 0
 
     User.joins(:location).includes(:location).find_each do |user|
-      Line::Messaging.push_text(to: user.line_user_id, text: MorningMessage.for(user))
+      Line::Messaging.push_texts(to: user.line_user_id, texts: MorningMessage.for(user))
       sent += 1
     rescue Weather::Error, Line::Messaging::Error => e
       # 1人に送れなくても、止めずに次の人へ。理由はログに残す
