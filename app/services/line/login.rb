@@ -14,7 +14,8 @@ module Line
     # LINE とのやりとりに失敗したとき
     class Error < StandardError; end
 
-    # ① LINE のログイン画面の URL。bot_prompt: "aggressive" で、ログインのあとに公式アカウントの友だち追加を出す
+    # ① LINE のログイン画面の URL。bot_prompt: "normal" で、同意画面の中に公式アカウントの友だち追加のチェックを出す
+    # （"aggressive" だと友だち追加が別の画面になり、スマホでは LINE アプリに飛んでログインが途中で止まることがあった）
     def self.authorize_url(redirect_uri:, state:)
       query = URI.encode_www_form(
         response_type: "code",
@@ -22,7 +23,7 @@ module Line
         redirect_uri:,
         state:,
         scope: "profile openid",
-        bot_prompt: "aggressive"
+        bot_prompt: "normal"
       )
       "#{AUTHORIZE_URL}?#{query}"
     end
