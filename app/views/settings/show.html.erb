@@ -76,5 +76,7 @@
 
   <%= button_to "ログアウト", logout_path, method: :delete, class: "logout-button logout-button-settings" %>
 
+  <%= render "shared/legal_links" %>
+
   <%= render "shared/tab_bar", current: :settings %>
 </main>

@@ -1,0 +1,6 @@
+<%# ページの下のほうに出す、プライバシーポリシー・利用規約・お問い合わせへのリンク %>
+<nav class="legal-links" aria-label="このサービスについて">
+  <%= link_to "プライバシーポリシー", privacy_path %>
+  <%= link_to "利用規約", terms_path %>
+  <%= link_to "お問い合わせ", Rails.configuration.x.contact_form_url, target: "_blank", rel: "noopener" %>
+</nav>

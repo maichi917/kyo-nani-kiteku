@@ -25,6 +25,8 @@ module KyoNaniKiteku
 
     # LINE 公式アカウントの友だち追加リンク
     config.x.line_friend_url = "https://line.me/R/ti/p/@134ddgvb"
+    # お問い合わせ（Google フォーム）
+    config.x.contact_form_url = "https://docs.google.com/forms/d/e/1FAIpQLSd6rY82OL7XiAtEWz0JeyYn5FDYH4QCqv4nvPt6FdCHriv3Fg/viewform"
     # 本番のアプリの URL（LINE の通知文の最後に入れる）
     config.x.app_url = "https://kyo-nani-kiteku.onrender.com/"
     # config.eager_load_paths << Rails.root.join("extras")
