@@ -80,6 +80,16 @@ RSpec.describe "Top", type: :request do
     end
   end
 
+  describe "LINE の案内" do
+    it "ログインしていなければ、受け取るまでの流れ（ログイン → 友だち追加 → マイエリア）を出す" do
+      stub_forecast
+
+      get root_path
+
+      expect(response.body).to include("LINE でログイン", "公式アカウントを友だち追加", "マイエリアを設定")
+    end
+  end
+
   describe "プライバシーポリシーなどへのリンク" do
     it "トップの下のほうに、プライバシーポリシー・利用規約・お問い合わせへのリンクがある" do
       stub_forecast
