@@ -499,10 +499,6 @@ body {
   font-size: 28px;
 }
 
-.back-link {
-  font-size: 13px;
-}
-
 .settings-card {
   display: flex;
   flex-direction: column;
@@ -661,3 +657,71 @@ body {
   color: var(--color-hot);
   text-decoration: none;
 }
+
+/* ---- ホーム ---- */
+/* 毎朝 LINE でお届け中の帯 */
+.notify-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #e7f7ee;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e5a3c;
+}
+
+.notify-status svg {
+  flex-shrink: 0;
+  color: #1e7a4c;
+}
+
+/* 友だち追加の案内 */
+.friend-note {
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+/* ---- 下のタブ（ホーム／設定） ---- */
+/* タブの高さの分だけ、ページの下に余白をとる */
+.page-with-tabs {
+  padding-bottom: calc(64px + 32px + env(safe-area-inset-bottom, 0px));
+}
+
+.tab-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  height: calc(64px + env(safe-area-inset-bottom, 0px));
+  /* 背景は画面いっぱい、ボタンはページの中身と同じ 480px の幅で真ん中に寄せる */
+  padding-inline: max(0px, calc((100% - 480px) / 2));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid #e3e5ea;
+  background: var(--color-surface);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+/* 今いる画面のタブは青く */
+.tab.is-current {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
