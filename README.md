@@ -70,9 +70,10 @@ erDiagram
     date date "対象日"
     integer outfit_level "おすすめの服装 enum"
     text comment "AIの一言（ホーム用）"
-    text line_comment "AIの一言（LINE用・砕けた口調）"
+    text line_comment "AIの一言（LINE用・今日なにちゃんの口調）"
     decimal max_temp "最高気温"
     decimal min_temp "最低気温"
+    decimal yesterday_max_temp "昨日の最高気温"
     integer precipitation_probability "降水確率"
   }
 ```
