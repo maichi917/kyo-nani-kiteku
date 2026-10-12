@@ -748,7 +748,7 @@ body {
   text-decoration: none;
 }
 
-/* ---- 下のタブ（ホーム／さがす／設定） ---- */
+/* ---- 下のタブ（ホーム／しらべる／設定） ---- */
 /* タブの高さの分だけ、ページの下に余白をとる */
 .page-with-tabs {
   padding-bottom: calc(64px + 32px + env(safe-area-inset-bottom, 0px));

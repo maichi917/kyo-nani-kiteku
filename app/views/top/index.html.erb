@@ -55,7 +55,7 @@
 
   <%= render "shared/legal_links" %>
 
-  <%# ログイン中は、下にタブを出す（ここは「さがす」の画面） %>
+  <%# ログイン中は、下にタブを出す（ここは「しらべる」の画面） %>
   <% if logged_in? %>
     <%= render "shared/tab_bar", current: :search %>
   <% end %>
