@@ -18,7 +18,7 @@ RSpec.describe "Sessions", type: :request do
       get line_login_path
 
       expect(response).to redirect_to(%r{\Ahttps://access\.line\.me/oauth2/v2\.1/authorize})
-      expect(response.location).to include("bot_prompt=aggressive")
+      expect(response.location).to include("bot_prompt=normal")
       expect(response.location).to include("state=")
     end
   end

@@ -10,7 +10,7 @@ class TopController < ApplicationController
     show_weather
   end
 
-  # GET /search（さがす。ログイン中の人も、ほかの場所の天気を調べられる）
+  # GET /search（しらべる。ログイン中の人も、ほかの場所の天気を調べられる）
   # GET /search?name=東京都中央区&lat=35.67&lon=139.77（候補から選んだとき）
   def search
     show_weather

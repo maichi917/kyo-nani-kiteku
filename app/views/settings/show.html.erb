@@ -14,7 +14,8 @@
     <% if @location %>
       <p class="current-location">現在：<strong><%= @location.name %></strong></p>
     <% else %>
-      <p class="current-location is-empty">まだ設定されていません。地名で検索して選んでください</p>
+      <%# マイエリアがないと毎朝の通知が届かないので、目立たせる %>
+      <p class="current-location is-empty">⚠ マイエリアを設定すると、毎朝7時に LINE が届きます（まだ届きません）。地名で検索して選んでください</p>
     <% end %>
 
     <%# 検索すると /settings?q=… を開き直して、下に候補を出す %>

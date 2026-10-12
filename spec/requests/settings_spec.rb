@@ -33,7 +33,7 @@ RSpec.describe "Settings", type: :request do
     it "マイエリアが未設定なら、そのことを伝える" do
       get settings_path
 
-      expect(response.body).to include("まだ設定されていません")
+      expect(response.body).to include("マイエリアを設定すると、毎朝7時に LINE が届きます（まだ届きません）")
     end
 
     it "下のほうに、プライバシーポリシー・利用規約・お問い合わせへのリンクがある" do

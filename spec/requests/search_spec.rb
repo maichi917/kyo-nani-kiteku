@@ -46,8 +46,8 @@ RSpec.describe "Search", type: :request do
     end
   end
 
-  describe "さがす（/search）" do
-    it "ログイン中でも、ほかの場所の天気を出す。タブはさがすが今いる画面" do
+  describe "しらべる（/search）" do
+    it "ログイン中でも、ほかの場所の天気を出す。タブはしらべるが今いる画面" do
       user.create_location!(name: "東京都渋谷区", latitude: 35.66, longitude: 139.69)
       sign_in(user)
 
