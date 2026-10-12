@@ -19,12 +19,13 @@ RSpec.describe "Places", type: :request do
       expect(response.body).to include("東京都中央区")
     end
 
-    it "候補のリンクは、選ぶとページごと切り替わる（_top）" do
+    it "候補のリンクは、選ぶとさがす（/search）にページごと切り替わる（_top）" do
       stub_geocoder("中央区", [ "東京都中央区" ])
 
       get places_path(q: "中央区")
 
       expect(response.body).to include('data-turbo-frame="_top"')
+      expect(response.body).to include('href="/search?')
       expect(response.body).to include("lat=35.0")
       expect(response.body).to include("lon=139.0")
     end
