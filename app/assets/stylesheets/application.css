@@ -5,7 +5,7 @@
 
 /* ---- 色とフォント（ここを変えると全体に反映される） ---- */
 :root {
-  --color-text: #111318;
+  --color-text: #3a3d45;
   --color-muted: #62656e;
   --color-border: #d9dce3;
   --color-surface: #ffffff;
@@ -17,6 +17,8 @@
   --color-line: #06c755;
 
   --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  /* タイトルだけ。だるまどろっぷには漢字がないので、「今日」「着」は Murecho で表示される */
+  --font-brand: "Darumadrop One", "Murecho", var(--font-display);
   --font-body: "Noto Sans JP", "Hiragino Sans", sans-serif;
 
   --radius-card: 22px;
@@ -51,35 +53,22 @@ body {
   padding-bottom: 4px;
 }
 
-/* タイトルの下の行に右寄せで、LINE のアイコンとログアウト */
-.account {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.account-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.account-icon-default {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
-}
 .brand {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 36px;
+  font-family: var(--font-brand);
+  font-weight: 900;
+  font-size: 44px;
   line-height: 1.3;
-  color: var(--color-accent);
+  color: #3b9cf2;
+  /* 白いふちどり（まわりに白い影をぐるっと重ねて、4px の太さにする）と、うすい影で、背景から浮き上がらせる */
+  text-shadow:
+    2px 0 0 #ffffff, 1px 1px 0 #ffffff, 0 2px 0 #ffffff, -1px 1px 0 #ffffff,
+    -2px 0 0 #ffffff, -1px -1px 0 #ffffff, 0 -2px 0 #ffffff, 1px -1px 0 #ffffff,
+    4px 0 0 #ffffff, 4px 2px 0 #ffffff, 3px 3px 0 #ffffff, 2px 4px 0 #ffffff,
+    0 4px 0 #ffffff, -2px 4px 0 #ffffff, -3px 3px 0 #ffffff, -4px 2px 0 #ffffff,
+    -4px 0 0 #ffffff, -4px -2px 0 #ffffff, -3px -3px 0 #ffffff, -2px -4px 0 #ffffff,
+    0 -4px 0 #ffffff, 2px -4px 0 #ffffff, 3px -3px 0 #ffffff, 4px -2px 0 #ffffff,
+    0 6px 14px rgba(59, 156, 242, 0.3);
 }
 
 .tagline {
@@ -203,12 +192,12 @@ body {
 
 .weather-place {
   margin: 0;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .weather-date {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--color-muted);
   white-space: nowrap;
 }
@@ -416,8 +405,9 @@ body {
   text-align: center;
 }
 
+/* ホームの友だち追加のカード（150px）と同じくらいの大きさにそろえる */
 .line-cta-character {
-  width: 300px;
+  width: 180px;
   max-width: 100%;
   height: auto;
 }
@@ -425,7 +415,8 @@ body {
 .line-cta-lead {
   margin: -4px 0 0;
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 17px;
+  line-height: 1.5;
   color: var(--color-accent);
 }
 
@@ -433,17 +424,33 @@ body {
   align-self: stretch;
 }
 
-.line-cta-title {
+/* 受け取るまでの流れ（① ログイン → ② 友だち追加 → ③ マイエリア） */
+.line-cta-steps {
   margin: 0;
+  padding: 16px 28px;
+  border-radius: var(--radius-box);
+  background: var(--color-accent-soft);
   font-size: 14px;
-  font-weight: 700;
+  text-align: left;
+  /* 枠は中身の幅に合わせて、カードの真ん中に置く */
+  align-self: center;
 }
 
-.line-cta-note {
+/* 上の青い文とかぶらないよう、タイトルは黒の太字 */
+.line-cta-steps-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.line-cta-steps ol {
   margin: 0;
-  font-size: 12px;
+  padding-left: 1.4em;
+  line-height: 1.9;
   color: var(--color-muted);
 }
+
 
 .line-button {
   display: flex;
@@ -500,12 +507,6 @@ body {
   white-space: nowrap;
 }
 
-/* ---- 右上のアイコン（押すと設定画面へ） ---- */
-.account-link {
-  display: flex;
-  border-radius: 50%;
-}
-
 /* ---- 設定画面 ---- */
 .settings-header {
   display: flex;
@@ -552,7 +553,13 @@ body {
   font-size: 14px;
 }
 
+/* マイエリアが未設定のときは、通知が届かないことを目立つ枠で伝える */
 .current-location.is-empty {
+  padding: 10px 12px;
+  border-radius: var(--radius-box);
+  background: #fdecec;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--color-hot);
 }
 

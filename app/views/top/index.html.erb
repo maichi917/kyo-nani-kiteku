@@ -1,22 +1,7 @@
 <main class="page<%= " page-with-tabs" if logged_in? %>">
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
-    <% if logged_in? %>
-      <%# タイトルの下の行に、右寄せで LINE のアイコン。押すとホームへ %>
-      <div class="account">
-        <%= link_to home_path, class: "account-link", aria: { label: "ホーム" } do %>
-          <% if current_user.picture_url.present? %>
-            <%= image_tag current_user.picture_url, alt: "", class: "account-icon" %>
-          <% else %>
-            <%# LINE のアイコンを設定していない人には、人の形の線画を出す %>
-            <span class="account-icon account-icon-default">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
-            </span>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-    <p class="tagline">あの場所の今日の天気とおすすめの服装をチェックしよう！</p>
+    <p class="tagline">今日の天気とおすすめの服装をチェックしよう！</p>
   </header>
 
   <section class="search" aria-label="地名で検索">
@@ -52,12 +37,19 @@
   <%# ログイン前だけ LINE 登録の案内を出す %>
   <% unless logged_in? %>
   <section class="line-cta" aria-label="LINE で受け取る">
-      <%= image_tag "kyonanichan.png", alt: "今日なにちゃん", class: "line-cta-character", width: 300, height: 300 %>
-      <p class="line-cta-lead">今日なにちゃんから LINE が届くよ</p>
-      <p class="line-cta-title">毎朝7時にLINEでメッセージを受け取れます</p>
+      <%= image_tag "kyonanichan.png", alt: "今日なにちゃん", class: "line-cta-character", width: 180, height: 180 %>
+      <p class="line-cta-lead">毎朝7時に、今日なにちゃんから<br>天気とおすすめの服装が LINE で届くよ！</p>
+      <%# ログインだけ・友だち追加だけでは届かないので、受け取るまでの流れを書いておく %>
+      <div class="line-cta-steps">
+        <p class="line-cta-steps-title">受け取るまでの3ステップ</p>
+        <ol>
+          <li>LINE でログイン</li>
+          <li>公式アカウントを友だち追加</li>
+          <li>マイエリアを設定</li>
+        </ol>
+      </div>
       <%# Turbo を使わず普通のページ移動にする（LINE のサイトへ移動するため） %>
       <%= link_to "LINEでログイン", line_login_path, class: "line-button", data: { turbo: false } %>
-      <p class="line-cta-note">ログイン時に公式アカウントの友だち追加をお願いします</p>
   </section>
   <% end %>
 
