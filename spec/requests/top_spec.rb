@@ -79,4 +79,14 @@ RSpec.describe "Top", type: :request do
       expect(response.body).to include("天気を取得できませんでした")
     end
   end
+
+  describe "プライバシーポリシーなどへのリンク" do
+    it "トップの下のほうに、プライバシーポリシー・利用規約・お問い合わせへのリンクがある" do
+      stub_forecast
+
+      get root_path
+
+      expect(response.body).to include(%(href="#{privacy_path}"), %(href="#{terms_path}"), Rails.configuration.x.contact_form_url)
+    end
+  end
 end

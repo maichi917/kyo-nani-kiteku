@@ -36,6 +36,12 @@ RSpec.describe "Settings", type: :request do
       expect(response.body).to include("まだ設定されていません")
     end
 
+    it "下のほうに、プライバシーポリシー・利用規約・お問い合わせへのリンクがある" do
+      get settings_path
+
+      expect(response.body).to include(%(href="#{privacy_path}"), %(href="#{terms_path}"), Rails.configuration.x.contact_form_url)
+    end
+
     it "地名で検索すると、候補と「この場所にする」ボタンが出る" do
       stub_request(:get, Weather::Geocoder::ENDPOINT).with(query: { q: "中央区" }).to_return(
         status: 200,
