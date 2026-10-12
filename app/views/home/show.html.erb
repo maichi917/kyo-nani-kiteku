@@ -1,0 +1,32 @@
+<main class="page page-with-tabs">
+  <header class="page-header">
+    <h1 class="brand">今日なに着てく？</h1>
+  </header>
+
+  <p class="notify-status">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+    毎朝 7:00 に LINE で今日の天気とおすすめの服装をお届け中
+  </p>
+
+  <section class="weather-card" aria-label="マイエリアの今日の天気と服装">
+    <% if @error %>
+      <p class="weather-error"><%= @error %></p>
+    <% else %>
+      <%# 今日のアドバイス（LINE で届いたものと同じ）を、トップと同じ天気カードで出す。服装の下は AI の一言 %>
+      <%= render "shared/weather_card",
+                 place_name: "🏠 #{@location.name}", date: @advice.date,
+                 max_temp: @advice.max_temp, min_temp: @advice.min_temp,
+                 yesterday_max_temp: @advice.yesterday_max_temp,
+                 precipitation_probability: @advice.precipitation_probability,
+                 outfit: @advice.outfit_level, judgment: @judgment,
+                 comment: @advice.home_comment,
+                 show_line_invite: false %>
+    <% end %>
+  </section>
+
+  <p class="friend-note">
+    <%= link_to "友だち追加", Rails.configuration.x.line_friend_url, target: "_blank", rel: "noopener" %>で今日なにちゃんからLINEが届くよ！
+  </p>
+
+  <%= render "shared/tab_bar", current: :home %>
+</main>

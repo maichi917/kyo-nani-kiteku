@@ -1,7 +1,6 @@
-<main class="page">
+<main class="page page-with-tabs">
   <header class="settings-header">
     <h1 class="settings-page-title">設定</h1>
-    <%= link_to "トップへ戻る", root_path, class: "back-link" %>
   </header>
 
   <%# マイエリア %>
@@ -76,4 +75,6 @@
   </section>
 
   <%= button_to "ログアウト", logout_path, method: :delete, class: "logout-button logout-button-settings" %>
+
+  <%= render "shared/tab_bar", current: :settings %>
 </main>

@@ -2,9 +2,9 @@
   <header class="page-header">
     <h1 class="brand">今日なに着てく？</h1>
     <% if logged_in? %>
-      <%# タイトルの下の行に、右寄せで LINE のアイコン。押すと設定画面へ（#8 でホームに変える） %>
+      <%# タイトルの下の行に、右寄せで LINE のアイコン。押すとホームへ %>
       <div class="account">
-        <%= link_to settings_path, class: "account-link", aria: { label: "設定" } do %>
+        <%= link_to home_path, class: "account-link", aria: { label: "ホーム" } do %>
           <% if current_user.picture_url.present? %>
             <%= image_tag current_user.picture_url, alt: "", class: "account-icon" %>
           <% else %>

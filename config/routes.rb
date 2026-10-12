@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get "auth/line/callback", to: "sessions#callback", as: :line_callback
   delete "logout", to: "sessions#destroy", as: :logout
 
+  # ホーム（ログインした人の、マイエリアの今日のアドバイス）
+  get "home", to: "home#show", as: :home
+
   # 設定画面（体質の保存もここ）と、自宅の保存
   resource :settings, only: %i[show update]
   resource :location, only: :update
