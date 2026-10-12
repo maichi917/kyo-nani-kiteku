@@ -19,7 +19,7 @@ RSpec.describe "Top", type: :request do
       get root_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("東京都渋谷区の今日")
+      expect(response.body).to include(%(<h2 class="weather-place">東京都渋谷区</h2>))
       expect(response.body).to include("25℃")
       # 24.6℃ は四捨五入して 25℃。画面の表示に合わせて半袖になる
       expect(response.body).to include("半袖")
@@ -31,7 +31,7 @@ RSpec.describe "Top", type: :request do
 
       get root_path(name: "東京都中央区", lat: "35.6706", lon: "139.772")
 
-      expect(response.body).to include("東京都中央区の今日")
+      expect(response.body).to include(%(<h2 class="weather-place">東京都中央区</h2>))
       expect(a_request(:get, Weather::Forecast::ENDPOINT).with(query: hash_including(latitude: "35.6706", longitude: "139.772")))
         .to have_been_made
     end
@@ -41,7 +41,7 @@ RSpec.describe "Top", type: :request do
 
       get root_path(name: "東京都中央区")
 
-      expect(response.body).to include("東京都渋谷区の今日")
+      expect(response.body).to include(%(<h2 class="weather-place">東京都渋谷区</h2>))
     end
 
     it "降水確率が50%以上なら傘の帯を出す" do

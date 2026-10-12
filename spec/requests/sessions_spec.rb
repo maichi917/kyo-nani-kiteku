@@ -57,7 +57,7 @@ RSpec.describe "Sessions", type: :request do
       expect(User.last).to have_attributes(name: "新しい名前", picture_url: nil)
     end
 
-    it "マイエリアを設定済みの人は、ログイン後にトップへ戻る" do
+    it "マイエリアを設定済みの人は、ログイン後にホームへ" do
       user = User.create!(line_user_id: "U1234567890", name: "まい")
       user.create_location!(name: "東京都渋谷区", latitude: 35.66367, longitude: 139.697723)
       stub_line_login
@@ -65,7 +65,7 @@ RSpec.describe "Sessions", type: :request do
 
       get line_callback_path(code: "abc", state:)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(home_path)
     end
 
     it "state が違うときはログインさせず、LINE にも問い合わせない" do

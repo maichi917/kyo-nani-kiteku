@@ -29,9 +29,9 @@ class SessionsController < ApplicationController
 
     reset_session # ログインの前後でセッションを作り直す（セッション固定攻撃の対策）
     session[:user_id] = user.id
-    # マイエリアがまだなら、まず設定画面へ（#8 でホームができたら、設定済みの人はホームへ）
+    # マイエリアが設定済みならホームへ、まだなら設定画面へ
     if user.location
-      redirect_to root_path, notice: "ログインしました"
+      redirect_to home_path, notice: "ログインしました"
     else
       redirect_to settings_path, notice: "ログインしました。まずはマイエリアを設定してください"
     end
