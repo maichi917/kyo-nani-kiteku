@@ -6,6 +6,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="今日なに着てく？">
     <meta name="mobile-web-app-capable" content="yes">
+    <%# URL を LINE などで共有したときに出す、説明の文と画像（OGP） %>
+    <% description = "毎朝7時に、今日の天気とおすすめの服装をLINEでお届けします！ログインなしでも各地の天気が確認できます。" %>
+    <meta name="description" content="<%= description %>">
+    <meta property="og:title" content="<%= content_for(:title) || "今日なに着てく？" %>">
+    <meta property="og:description" content="<%= description %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.base_url + request.path %>">
+    <meta property="og:image" content="<%= request.base_url %>/ogp.jpg">
+    <meta property="og:site_name" content="今日なに着てく？">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="twitter:card" content="summary_large_image">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
