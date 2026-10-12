@@ -780,3 +780,60 @@ body {
   color: var(--color-accent);
 }
 
+
+/* ---- プライバシーポリシー・利用規約 ---- */
+.legal-page {
+  padding: 24px 20px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  font-size: 14px;
+}
+
+.legal-title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 24px;
+}
+
+.legal-page h2 {
+  margin: 24px 0 8px;
+  font-size: 16px;
+}
+
+.legal-page p,
+.legal-page ul {
+  margin: 0 0 8px;
+}
+
+.legal-page ul {
+  padding-left: 1.4em;
+}
+
+.legal-page a {
+  color: var(--color-accent-ink);
+}
+
+.legal-date {
+  margin-top: 24px;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.legal-back {
+  align-self: center;
+  color: var(--color-accent-ink);
+  font-size: 14px;
+}
+
+/* ページの下のほうに出す、プライバシーポリシーなどへのリンク */
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  font-size: 12px;
+}
+
+.legal-links a {
+  color: var(--color-muted);
+}

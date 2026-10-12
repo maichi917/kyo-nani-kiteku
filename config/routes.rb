@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   # ホーム（ログインした人の、マイエリアの今日のアドバイス）
   get "home", to: "home#show", as: :home
 
+  # プライバシーポリシーと利用規約
+  get "privacy", to: "pages#privacy", as: :privacy
+  get "terms", to: "pages#terms", as: :terms
+
   # 設定画面（体質の保存もここ）と、自宅の保存
   resource :settings, only: %i[show update]
   resource :location, only: :update
