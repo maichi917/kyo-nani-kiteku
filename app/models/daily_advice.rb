@@ -16,13 +16,7 @@ class DailyAdvice < ApplicationRecord
   def self.create_for_today(user)
     location = user.location
     forecast = Weather::Forecast.fetch(latitude: location.latitude, longitude: location.longitude)
-    # 画面と同じく、四捨五入した気温で、体感タイプも入れて判定する
-    judgment = Outfit::Judge.call(
-      max_temp: forecast.max_temp.round,
-      min_temp: forecast.min_temp.round,
-      precipitation_probability: forecast.precipitation_probability,
-      sensitivity: user.sensitivity
-    )
+    judgment = judge(forecast, sensitivity: user.sensitivity)
     comments = write_comments(location:, forecast:, judgment:, sensitivity: user.sensitivity)
 
     user.daily_advices.create!(
@@ -40,7 +34,17 @@ class DailyAdvice < ApplicationRecord
     user.daily_advices.find_by!(date: Date.current)
   end
 
-  # AI に一言を書いてもらう。失敗したら nil（一言は空のまま保存し、服装ごとの説明文で代わりにする）
+  # 画面と同じく、四捨五入した気温で、体感タイプも入れて判定する
+  def self.judge(forecast, sensitivity:)
+    Outfit::Judge.call(
+      max_temp: forecast.max_temp.round,
+      min_temp: forecast.min_temp.round,
+      precipitation_probability: forecast.precipitation_probability,
+      sensitivity:
+    )
+  end
+
+  # AI にひとことを書いてもらう。失敗したら nil（ひとことは空のまま保存し、服装ごとの説明文で代わりにする）
   def self.write_comments(location:, forecast:, judgment:, sensitivity:)
     notices = []
     notices << Outfit::Judge.heat_label(judgment.heat_level) if judgment.heat_level
@@ -59,10 +63,23 @@ class DailyAdvice < ApplicationRecord
       notices:
     )
   rescue Gemini::AdviceWriter::Error => e
-    Rails.logger.warn("[DailyAdvice] AI の一言を作れませんでした（説明文で代わりにします）: #{e.message}")
+    Rails.logger.warn("[DailyAdvice] AI のひとことを作れませんでした（説明文で代わりにします）: #{e.message}")
     nil
   end
-  private_class_method :create_for_today, :write_comments
+  private_class_method :create_for_today
+
+  # AI のひとことがないとき（作ったときに Gemini が混んでいた日など）、もう一度書いてもらう。
+  # 保存してある天気から判定し直して頼む。ひとことがそろっていれば true、また失敗したら false
+  def fill_missing_comments!
+    return true if line_comment.present?
+
+    judgment = self.class.judge(self, sensitivity: user.sensitivity)
+    comments = self.class.write_comments(location: user.location, forecast: self, judgment:, sensitivity: user.sensitivity)
+    return false unless comments
+
+    update!(comment: comments.home, line_comment: comments.line)
+    true
+  end
 
   # ホームに出す一言。AI に失敗した日（comment が空）は、服装ごとの説明文を使う
   def home_comment

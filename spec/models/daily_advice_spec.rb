@@ -117,4 +117,35 @@ RSpec.describe DailyAdvice do
       expect(user.daily_advices).to be_empty
     end
   end
+
+  describe "#fill_missing_comments!" do
+    before { user.create_location!(name: "東京都渋谷区", latitude: 35.66, longitude: 139.69) }
+
+    it "ひとことがあれば、AI を呼ばずに true を返す" do
+      advice = build_advice(comment: "ホーム用", line_comment: "LINE 用")
+      advice.save!
+
+      expect(advice.fill_missing_comments!).to be true
+      expect(a_request(:post, Gemini::AdviceWriter::ENDPOINT)).not_to have_been_made
+    end
+
+    it "ひとことがなければ、保存してある天気で AI に書いてもらって保存する（天気は取りに行かない）" do
+      advice = build_advice
+      advice.save!
+      stub_gemini(home: "ホーム用", line: "LINE 用")
+
+      expect(advice.fill_missing_comments!).to be true
+      expect(advice.reload).to have_attributes(comment: "ホーム用", line_comment: "LINE 用")
+      expect(a_request(:get, Weather::Forecast::ENDPOINT).with(query: hash_including({}))).not_to have_been_made
+    end
+
+    it "AI にまた失敗したら、ひとことは空のまま false を返す" do
+      advice = build_advice
+      advice.save!
+      stub_request(:post, Gemini::AdviceWriter::ENDPOINT).to_return(status: 503)
+
+      expect(advice.fill_missing_comments!).to be false
+      expect(advice.reload.line_comment).to be_nil
+    end
+  end
 end
