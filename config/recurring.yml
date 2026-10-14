@@ -10,6 +10,12 @@
 #     schedule: at 5am every day
 
 production:
+  # 毎朝6:32（日本時間）に、全員の今日の天気と AI のひとことを準備しておく。
+  # 0分・30分ちょうどは API が混みやすいので、少しずらす
+  prepare_morning_advices:
+    class: PrepareMorningAdvicesJob
+    schedule: "32 6 * * * Asia/Tokyo"
+
   # 毎朝7時（日本時間）に、全員へ LINE で天気と服装を届ける。サーバーは世界標準時なので Asia/Tokyo を付ける
   morning_notification:
     class: MorningNotificationJob
