@@ -8,8 +8,14 @@ RSpec.describe Outfit do
     end
   end
 
+  it "6段階すべてに、服装の名前と同じファイル名のイラストがある" do
+    Outfit::LEVELS.each_key do |level|
+      expect(Rails.root.join("app/assets/images/outfits/#{level}.png")).to exist
+    end
+  end
+
   it "文字列で渡しても名前と説明文を返す" do
-    expect(Outfit.label("cardigan")).to eq "長袖＋カーディガン"
+    expect(Outfit.label("cardigan")).to eq "カーディガン"
     expect(Outfit.description("cardigan")).to include "カーディガン"
   end
 end

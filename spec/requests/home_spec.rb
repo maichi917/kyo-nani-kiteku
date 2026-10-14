@@ -67,6 +67,9 @@ RSpec.describe "Home", type: :request do
       get home_path
 
       expect(response.body).to include("保存してある一言")
+      # 保存してある服装の名前とイラスト
+      expect(response.body).to include("厚手のコート")
+      expect(response.body).to include("outfits/coat")
       expect(a_request(:get, Weather::Forecast::ENDPOINT).with(query: hash_including({}))).not_to have_been_made
     end
 
@@ -76,7 +79,7 @@ RSpec.describe "Home", type: :request do
 
       get home_path
 
-      # 22℃ でも、体感タイプがふつうなら「長袖1枚」
+      # 22℃ でも、体感タイプがふつうなら「長袖」
       expect(response.body).to include(Outfit.description(:long_sleeve))
     end
 

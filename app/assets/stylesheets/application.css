@@ -285,11 +285,9 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 96px;
-  height: 96px;
-  border-radius: 14px;
-  background: #e4effd;
-  color: var(--color-accent);
+  /* イラストにふちどりがあるので、背景の四角はつけない（ほかの要素の色とかぶらないように） */
+  width: 64px;
+  height: 64px;
 }
 
 .outfit-body {

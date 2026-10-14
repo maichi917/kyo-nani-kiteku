@@ -25,12 +25,12 @@ RSpec.describe Outfit::Judge do
       expect(judge(max_temp: 8.0).outfit).to eq :coat
     end
 
-    it "氷点下でも厚手コートになる" do
+    it "氷点下でもダウン（いちばん厚着）になる" do
       expect(judge(max_temp: -5).outfit).to eq :heavy_coat
     end
 
     context "体質で補正する" do
-      it "同じ22℃でも、暑がりは半袖、寒がりは長袖＋カーディガンになる" do
+      it "同じ22℃でも、暑がりは半袖、寒がりはカーディガンになる" do
         expect(judge(max_temp: 22, sensitivity: :normal).outfit).to eq :long_sleeve
         expect(judge(max_temp: 22, sensitivity: :hot).outfit).to eq :short_sleeve
         expect(judge(max_temp: 22, sensitivity: :cold).outfit).to eq :cardigan

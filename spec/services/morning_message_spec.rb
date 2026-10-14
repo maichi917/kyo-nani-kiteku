@@ -22,7 +22,7 @@ RSpec.describe MorningMessage do
     expect(text).to include("📍 東京都渋谷区")
     expect(text).to include("🌡 最高25℃ ／ 最低18℃（昨日より1℃高い）")
     expect(text).to include("☔️ 降水確率 0%")
-    expect(text).to include("👕 おすすめ：長袖1枚")
+    expect(text).to include("👕 おすすめ：長袖")
     expect(text).to include(Rails.configuration.x.app_url)
   end
 
@@ -60,8 +60,8 @@ RSpec.describe MorningMessage do
       comment, text = described_class.for(user)
 
       expect(comment).to eq "おはよう！\n今日なにちゃんだよ☀️\n\nカーディガンがちょうどいいよ🧥"
-      # 22℃ でも寒がりなので、−3℃ の 19℃ で判定して「長袖＋カーディガン」
-      expect(text).to include("👕 おすすめ：長袖＋カーディガン")
+      # 22℃ でも寒がりなので、−3℃ の 19℃ で判定して「カーディガン」
+      expect(text).to include("👕 おすすめ：カーディガン")
     end
   end
 end

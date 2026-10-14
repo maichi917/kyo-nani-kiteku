@@ -23,6 +23,7 @@ RSpec.describe "Top", type: :request do
       expect(response.body).to include("25℃")
       # 24.6℃ は四捨五入して 25℃。画面の表示に合わせて半袖になる
       expect(response.body).to include("半袖")
+      expect(response.body).to include("outfits/short_sleeve")
       expect(response.body).to include("昨日より <strong>1℃</strong> 高い")
     end
 
