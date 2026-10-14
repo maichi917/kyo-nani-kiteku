@@ -85,7 +85,7 @@ RSpec.describe DailyAdvice do
         date: Date.new(2026, 10, 12), max_temp: 22.0, min_temp: 13.0, yesterday_max_temp: 21.0,
         precipitation_probability: 60, comment: "ホーム用", line_comment: "LINE 用"
       )
-      # 22℃ でも寒がりなので、−3℃ の 19℃ で判定して「長袖＋カーディガン」
+      # 22℃ でも寒がりなので、−3℃ の 19℃ で判定して「カーディガン」
       expect(advice.outfit_level).to eq "cardigan"
     end
 

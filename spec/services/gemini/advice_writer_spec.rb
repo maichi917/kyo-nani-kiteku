@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Gemini::AdviceWriter do
   let(:weather) do
     { place_name: "東京都渋谷区", short_place_name: "渋谷区", max_temp: 22, yesterday_max_temp: 26, min_temp: 13,
-      precipitation_probability: 60, umbrella: true, outfit: "長袖＋カーディガン", sensitivity: "寒がり", notices: [ "寒暖差あり" ] }
+      precipitation_probability: 60, umbrella: true, outfit: "カーディガン", sensitivity: "寒がり", notices: [ "寒暖差あり" ] }
   end
 
   describe ".write" do
@@ -25,7 +25,7 @@ RSpec.describe Gemini::AdviceWriter do
         a_request(:post, Gemini::AdviceWriter::ENDPOINT).with do |req|
           body = JSON.parse(req.body)
           prompt = body.dig("contents", 0, "parts", 0, "text")
-          prompt.include?("今日の渋谷区は") && prompt.include?("長袖＋カーディガン") && prompt.include?("寒暖差あり") &&
+          prompt.include?("今日の渋谷区は") && prompt.include?("カーディガン") && prompt.include?("寒暖差あり") &&
             body.dig("generationConfig", "responseMimeType") == "application/json"
         end
       ).to have_been_made.once
