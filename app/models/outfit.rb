@@ -12,11 +12,11 @@ module Outfit
 
   LABELS = {
     short_sleeve: "半袖",
-    long_sleeve: "長袖1枚",
-    cardigan: "長袖＋カーディガン",
-    light_coat: "薄手コート",
-    coat: "コート",
-    heavy_coat: "厚手コート"
+    long_sleeve: "長袖",
+    cardigan: "カーディガン",
+    light_coat: "薄手のコート",
+    coat: "厚手のコート",
+    heavy_coat: "ダウン"
   }.freeze
 
   # ログイン前（AI の一言がないとき）に出す、服装ごとの決まった説明文
@@ -24,9 +24,9 @@ module Outfit
     short_sleeve: "半袖で過ごせる暑さ。日差し対策もしておくと安心です",
     long_sleeve: "長袖1枚でちょうどいい気温です",
     cardigan: "さっと羽織れるカーディガンがあると安心です",
-    light_coat: "薄手のコートやジャケットを一枚。脱ぎ着しやすいものを",
-    coat: "コートが必要な寒さ。首元を温めると過ごしやすくなります",
-    heavy_coat: "厚手のコートでしっかり防寒。マフラーや手袋もあると安心です"
+    light_coat: "トレンチなどの薄手のコートを一枚。脱ぎ着しやすいものを",
+    coat: "厚手のコートが必要な寒さ。首元を温めると過ごしやすくなります",
+    heavy_coat: "ダウンでしっかり防寒。マフラーや手袋もあると安心です"
   }.freeze
 
   def self.label(level)
