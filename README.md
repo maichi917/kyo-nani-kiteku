@@ -92,7 +92,7 @@ erDiagram
 |---|---|
 | 言語・フレームワーク | Ruby 4.0.2 / Ruby on Rails 8.1.3 |
 | フロントエンド | Hotwire（Turbo）/ Importmap / CSS |
-| データベース | PostgreSQL 17（本番は Neon） |
+| データベース | PostgreSQL 17（本番は Supabase） |
 | インフラ | Render / Docker |
 | 定期実行 | Solid Queue（recurring tasks） |
 | 外部API | Open-Meteo API / 国土地理院 地名検索API / Gemini API（gemini-3.5-flash-lite）/ LINEログイン / LINE Messaging API |
